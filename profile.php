@@ -1,3 +1,4 @@
+<?php include 'includes/auth_check.php'; ?>
 <?php
 // profile.php
 //session_start();
@@ -11,7 +12,6 @@ $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
 ?>
 <?php include 'includes/header.php'; ?>
-<?php include 'includes/auth_check.php'; ?>
 
 <div class="container mt-5">
   <h2>Profile</h2>

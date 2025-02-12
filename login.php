@@ -6,28 +6,32 @@ include 'includes/db.php';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
+    // Retrieve and sanitize the username and password inputs.
+    $username = trim($_POST['username']);
     $password = $_POST['password'];
 
-    if ($email && $password) {
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->execute([$email]);
+    if ($username && $password) {
+        // Prepare a statement to select the user by username.
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+        $stmt->execute([$username]);
         $user = $stmt->fetch();
 
+        // Verify the password using password_verify()
         if ($user && password_verify($password, $user['password'])) {
-            // Successful login, set session variables
+            // Set session variables and redirect to the homepage.
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             header("Location: index.php");
             exit;
         } else {
-            $error = "Invalid email or password.";
+            $error = "Invalid username or password.";
         }
     } else {
-        $error = "Please enter both email and password.";
+        $error = "Please enter both username and password.";
     }
 }
 ?>
+
 
 <?php include 'includes/header.php'; ?>
 <div class="container mt-5">
@@ -37,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <?php endif; ?>
   <form action="login.php" method="post">
     <div class="mb-3">
-      <label for="email" class="form-label">Email:</label>
-      <input type="email" class="form-control" id="email" name="email" required>
+      <label for="username" class="form-label">Username:</label>
+      <input type="text" class="form-control" id="username" name="username" required>
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password:</label>
@@ -46,6 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <button type="submit" class="btn btn-primary">Log In</button>
   </form>
-  <p class="mt-3">Don’t have an account? <a href="signup.php">Sign Up</a></p>
+  <p class="mt-3">Don't have an account? <a href="signup.php">Sign Up</a></p>
 </div>
 <?php include 'includes/footer.php'; ?>
