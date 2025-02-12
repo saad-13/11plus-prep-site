@@ -1,4 +1,6 @@
 <?php include 'includes/header.php'; ?>
+<?php include 'includes/auth_check.php'; ?>
+
 <div class="container mt-5">
   <h2>Leaderboard</h2>
   <div class="mb-3">

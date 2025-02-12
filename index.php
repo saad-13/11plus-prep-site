@@ -8,6 +8,8 @@ if (!isset($_SESSION['user_id'])) {
 }
 ?>
 <?php include 'includes/header.php'; ?>
+<?php include 'includes/auth_check.php'; ?>
+
 <div class="container mt-5">
   <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
   <div class="row mt-4">
