@@ -34,12 +34,26 @@
             <li class="nav-item"><a class="nav-link" href="leaderboard.php">Leaderboard</a></li>
           </ul>
           <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="profile.php">
-                <img src="images/profile-icon.png" alt="Profile" width="30" height="30">
-              </a>
-            </li>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="images/profile-icon.png" alt="Profile" width="30" height="30">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    <li><a class="dropdown-item" href="profile.php">My Account</a></li>
+                    <li><a class="dropdown-item" href="settings.php">Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+                </ul>
+                </li>
+            <?php else: ?>
+                <!-- If for some reason a non‑logged-in user can see the navbar, show a Login link -->
+                <li class="nav-item">
+                <a class="nav-link" href="login.php">Login</a>
+                </li>
+            <?php endif; ?>
           </ul>
+
         </div>
       </div>
     </nav>
