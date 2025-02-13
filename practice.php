@@ -1,4 +1,6 @@
-<?php include 'includes/auth_check.php'; ?>
+<?php 
+$currentPage = 'practice';
+include 'includes/auth_check.php'; ?>
 <?php include 'includes/header.php'; ?>
 
 <div class="container mt-5">

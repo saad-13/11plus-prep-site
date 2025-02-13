@@ -1,4 +1,6 @@
-<?php include 'includes/auth_check.php'; ?>
+<?php 
+$currentPage = 'home';
+include 'includes/auth_check.php'; ?>
 <?php
 // index.php
 //session_start();

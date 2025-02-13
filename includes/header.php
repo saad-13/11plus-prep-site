@@ -34,13 +34,23 @@ if (session_status() == PHP_SESSION_NONE) {
         </button>
         <!-- Navbar links -->
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav mx-auto">
-            <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="learn.php">Learn</a></li>
-            <li class="nav-item"><a class="nav-link" href="practice.php">Practice</a></li>
-            <li class="nav-item"><a class="nav-link" href="games.php">Games</a></li>
-            <li class="nav-item"><a class="nav-link" href="leaderboard.php">Leaderboard</a></li>
-          </ul>
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($currentPage) && $currentPage == 'home') ? 'active' : ''; ?>" href="index.php">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($currentPage) && $currentPage == 'learn') ? 'active' : ''; ?>" href="learn.php">Learn</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($currentPage) && $currentPage == 'practice') ? 'active' : ''; ?>" href="practice.php">Practice</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($currentPage) && $currentPage == 'games') ? 'active' : ''; ?>" href="games.php">Games</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo (isset($currentPage) && $currentPage == 'leaderboard') ? 'active' : ''; ?>" href="leaderboard.php">Leaderboard</a>
+                </li>
+            </ul>
           <ul class="navbar-nav">
             <?php if (isset($_SESSION['user_id'])): ?>
                 <li class="nav-item dropdown">

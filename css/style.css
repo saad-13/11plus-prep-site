@@ -1,14 +1,90 @@
 /* css/style.css */
 
-/* Custom styles for your site */
+/* color scheme */
+:root {
+    --primary-color: #4a90e2;   /* A vibrant blue */
+    --accent-color: #F26419;    /* A fresh orange accent */
+    --secondary-color: #f3f3f3; /* White for backgrounds */
+    --text-color: #333333;      /* Dark gray for text */
+    --navbar-bg: #f2f2f2;       /* navbar background */
+    --navbar-text: #6e6e6e;     /* text in the navbar */
+    --card-bg: #ffffff;         /* White card backgrounds */
+    --card-border: #e0e0e0;     /* Light gray borders for cards */
+  }
+
+/* Body Gradient Background */
 body {
-    background-color: #f8f9fa;
-}
-
-h1, h2 {
-    margin-bottom: 20px;
-}
-
-.card {
-    margin-bottom: 20px;
-}
+    background: linear-gradient(to bottom right, #C2DCEC, #F2CFC2);
+    color: var(--text-color);
+  }
+  
+  /* Navbar Customization */
+  .navbar {
+    background-color: var(--navbar-bg);
+  }
+  
+  .navbar-nav .nav-link {
+    color: #333333 !important; /* Base dark gray text */
+  }
+  
+  .navbar-nav .nav-link.active {
+    color: #F26419 !important; /* Highlighted color for the active/current page */
+    font-weight: bold;
+  }
+  
+  /*dropdown menu items  */
+  .dropdown-menu .dropdown-item {
+    color: #333333;
+  }
+  
+  .dropdown-menu .dropdown-item:hover {
+    background-color: var(--accent-color);
+    color: #fff;
+  }
+  
+  
+  /* Buttons */
+  .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  
+  .btn-primary:hover {
+    background-color: #3a7bd5; /* Slightly darker blue for hover */
+    border-color: #3a7bd5;
+  }
+  
+  /* Cards */
+  .card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+  }
+  
+  /* General body styling */
+  body {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+  }
+  
+  /* Footer */
+  footer {
+    background-color: var(--navbar-bg);
+    color: var(--navbar-text);
+    text-align: center;
+    padding: 10px 0;
+  }
+  
+  /* Headings */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-color);
+  }
+  
+  /* Profile Dropdown Items */
+  .dropdown-menu .dropdown-item {
+    color: var(--navbar-text);
+  }
+  
+  .dropdown-menu .dropdown-item:hover {
+    background-color: var(--accent-color);
+  }
+  

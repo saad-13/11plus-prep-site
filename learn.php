@@ -1,4 +1,6 @@
-<?php include 'includes/auth_check.php'; ?>
+<?php 
+$currentPage = 'learn';
+include 'includes/auth_check.php'; ?>
 <?php include 'includes/header.php'; ?>
 
 

@@ -1,4 +1,5 @@
-<?php include 'includes/auth_check.php'; ?>
+<?php $currentPage = 'leaderboard';
+include 'includes/auth_check.php'; ?>
 <?php include 'includes/header.php'; ?>
 
 
