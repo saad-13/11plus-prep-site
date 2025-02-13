@@ -6,6 +6,7 @@ include 'includes/auth_check.php'; ?>
 
 <div class="container mt-5">
   <h2 class="mb-4">Learn</h2>
+    <p class="lead">Select a subject to start learning.</p>
   <div class="row row-cols-1 row-cols-md-2 g-4">
     <!-- Mathematics Card -->
     <div class="col">
