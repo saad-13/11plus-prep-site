@@ -5,43 +5,66 @@ include 'includes/auth_check.php'; ?>
 
 
 <div class="container mt-5">
-  <h2>Learn</h2>
-  <div class="accordion" id="subjectsAccordion">
-    <!-- Maths -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingMaths">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMaths" aria-expanded="false" aria-controls="collapseMaths">
-          Maths
-        </button>
-      </h2>
-      <div id="collapseMaths" class="accordion-collapse collapse" aria-labelledby="headingMaths" data-bs-parent="#subjectsAccordion">
-        <div class="accordion-body">
-          <ul>
-            <li><a href="topic.php?subject=maths&topic=algebra">Algebra</a></li>
-            <li><a href="topic.php?subject=maths&topic=geometry">Geometry</a></li>
-            <!-- Add more topics -->
-          </ul>
+  <h2 class="mb-4">Learn</h2>
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <!-- Mathematics Card -->
+    <div class="col">
+      <a href="topic_selection.php?subject=mathematics" class="text-decoration-none text-dark">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <h5 class="card-title fw-bold">Mathematics</h5>
+              <img src="images/math-icon.png" alt="Math Icon" style="width:40px; height:40px;">
+            </div>
+            <p class="card-text fst-italic">Explore concepts and problem solving in Mathematics.</p>
+          </div>
         </div>
-      </div>
+      </a>
     </div>
-    <!-- English -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingEnglish">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEnglish" aria-expanded="false" aria-controls="collapseEnglish">
-          English
-        </button>
-      </h2>
-      <div id="collapseEnglish" class="accordion-collapse collapse" aria-labelledby="headingEnglish" data-bs-parent="#subjectsAccordion">
-        <div class="accordion-body">
-          <ul>
-            <li><a href="topic.php?subject=english&topic=grammar">Grammar</a></li>
-            <li><a href="topic.php?subject=english&topic=vocabulary">Vocabulary</a></li>
-            <!-- Add more topics -->
-          </ul>
+    <!-- English Card -->
+    <div class="col">
+      <a href="topic_selection.php?subject=english" class="text-decoration-none text-dark">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <h5 class="card-title fw-bold">English</h5>
+              <img src="images/english-icon.png" alt="English Icon" style="width:40px; height:40px;">
+            </div>
+            <p class="card-text fst-italic">Learn grammar, vocabulary, and comprehension skills.</p>
+          </div>
         </div>
-      </div>
+      </a>
     </div>
-    <!-- Repeat similar blocks for Verbal and Non-Verbal Reasoning -->
+    <!-- Verbal Reasoning Card -->
+    <div class="col">
+      <a href="topic_selection.php?subject=verbal" class="text-decoration-none text-dark">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <h5 class="card-title fw-bold">Verbal Reasoning</h5>
+              <img src="images/verbal-icon.png" alt="Verbal Reasoning Icon" style="width:40px; height:40px;">
+            </div>
+            <p class="card-text fst-italic">Develop logical thinking through language and words.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <!-- Non-Verbal Reasoning Card -->
+    <div class="col">
+      <a href="topic_selection.php?subject=nonverbal" class="text-decoration-none text-dark">
+        <div class="card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <h5 class="card-title fw-bold">Non-Verbal Reasoning</h5>
+              <img src="images/nonverbal-icon.png" alt="Non-Verbal Icon" style="width:40px; height:40px;">
+            </div>
+            <p class="card-text fst-italic">Improve your ability to interpret visual information.</p>
+          </div>
+        </div>
+      </a>
+    </div>
   </div>
 </div>
+
+
 <?php include 'includes/footer.php'; ?>
