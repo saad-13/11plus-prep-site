@@ -16,7 +16,7 @@ $user = $stmt->fetch();
 <?php include 'includes/header.php'; ?>
 
 <div class="container mt-5">
-  <h2>Profile</h2>
+  <h2 style="color: #F26419;">Profile</h2>
   <ul class="list-group">
     <li class="list-group-item"><strong>Username:</strong> <?php echo htmlspecialchars($user['username']); ?></li>
     <li class="list-group-item"><strong>Email:</strong> <?php echo htmlspecialchars($user['email']); ?></li>

@@ -4,8 +4,8 @@ include 'includes/auth_check.php'; ?>
 <?php include 'includes/header.php'; ?>
 
 <div class="container mt-5">
-  <h2 class="mb-4">Practice</h2>
-  
+  <h2 style="color: #F26419;">Practice</h2> 
+      <p>Practice makes perfect! Engage with our practice tests to improve your skills and knowledge. Choose from a variety of subjects and test types.</p>
   <!-- Section A: Two Big Cards -->
   <div class="row mb-4">
     <div class="col-md-6 mb-3">

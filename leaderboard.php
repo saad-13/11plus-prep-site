@@ -43,7 +43,7 @@ $leaderboard = $stmt->fetchAll();
 ?>
 
 <div class="container mt-5">
-  <h2>Leaderboard</h2>
+  <h2 style="color: #F26419;">Leaderboard</h2>
   <div class="mb-3">
     <a href="leaderboard.php?filter=daily" class="btn btn-outline-primary <?php echo ($filter == 'daily') ? 'active' : ''; ?>">Today</a>
     <a href="leaderboard.php?filter=weekly" class="btn btn-outline-primary <?php echo ($filter == 'weekly') ? 'active' : ''; ?>">This Week</a>
