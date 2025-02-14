@@ -1,16 +1,38 @@
 <?php 
 $currentPage = 'home';
-include 'includes/auth_check.php'; ?>
-<?php
-// index.php
-//session_start();
+include 'includes/auth_check.php';
+
 // Check if user is logged in; if not, redirect to login.
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
+
+include 'includes/header.php';
+include 'includes/db.php';
+
+// Fetch the latest quiz result for the logged-in user.
+$stmt = $pdo->prepare("SELECT * FROM quiz_results WHERE user_id = ? ORDER BY created_at DESC LIMIT 1");
+$stmt->execute([$_SESSION['user_id']]);
+$latestQuiz = $stmt->fetch();
+
+if($latestQuiz) {
+    $score = $latestQuiz['score'];
+    $total = $latestQuiz['total_questions'];
+    // Calculate percentage. Protect against division by zero.
+    $percentage = ($total > 0) ? round(($score / $total) * 100) : 0;
+    
+    // Determine the quiz type. For subject-specific quizzes, use the subject name.
+    if($latestQuiz['quiz_type'] == 'subject' && !empty($latestQuiz['subject'])) {
+        $quizType = ucfirst($latestQuiz['subject']) . " Practice";
+    } else {
+        $quizType = ucfirst($latestQuiz['quiz_type']);
+    }
+} else {
+    $quizType = "N/A";
+    $percentage = 0;
+}
 ?>
-<?php include 'includes/header.php'; ?>
 
 <!-- Main Container with some side spacing -->
 <div class="container mt-5">
@@ -73,18 +95,29 @@ if (!isset($_SESSION['user_id'])) {
     <div class="col-md-12 mb-4">
       <div class="card">
         <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <h5 class="card-title">Latest Quiz Result</h5>
-              <p class="card-text">Mock Exams - 85% Achieved</p>
+          <?php if($latestQuiz): ?>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="card-title">Latest Quiz Result</h5>
+                <p class="card-text"><?php echo htmlspecialchars($quizType); ?> - <?php echo $percentage; ?>% Achieved</p>
+              </div>
+              <div>
+                <h3 class="text-primary"><?php echo $percentage; ?>%</h3>
+              </div>
             </div>
-            <div>
-              <h3 class="text-primary">85%</h3>
+            <div class="progress mt-3" style="height: 20px;">
+              <div class="progress-bar" role="progressbar" style="width: <?php echo $percentage; ?>%;" aria-valuenow="<?php echo $percentage; ?>" aria-valuemin="0" aria-valuemax="100">
+                <?php echo $percentage; ?>%
+              </div>
             </div>
-          </div>
-          <div class="progress mt-3" style="height: 20px;">
-            <div class="progress-bar" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%</div>
-          </div>
+          <?php else: ?>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="card-title">Latest Quiz Result</h5>
+                <p class="card-text">No quiz results yet.</p>
+              </div>
+            </div>
+          <?php endif; ?>
         </div>
       </div>
     </div>
@@ -150,11 +183,11 @@ var progressChart = new Chart(ctx, {
         grid: {
           drawBorder: false,
           color: function(context) {
-            // Draw dotted threshold lines at 50, 75, and 90.
+            // Draw dotted threshold lines at specific values.
             if (context.tick.value === 50) {
-              return 'red';
-            } else if (context.tick.value === 70) {
               return 'orange';
+            } else if (context.tick.value === 75) {
+              return 'yellow';
             } else if (context.tick.value === 90) {
               return 'green';
             }
