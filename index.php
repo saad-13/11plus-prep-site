@@ -56,7 +56,7 @@ foreach ($quizResults as $result) {
   <!-- Welcome Message -->
   <div class="row">
     <div class="col-md-12">
-      <h2 class="mb-4">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h2>
+      <h2 style="color: #F26419;">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h2>
     </div>
   </div>
 
@@ -118,11 +118,11 @@ foreach ($quizResults as $result) {
                 <p class="card-text"><?php echo htmlspecialchars($quizType); ?> - <?php echo $percentage; ?>% Achieved</p>
               </div>
               <div>
-                <h3 class="text-primary"><?php echo $percentage; ?>%</h3>
+                <h3 style="color: #F26419;"><?php echo $percentage; ?>%</h3>
               </div>
             </div>
             <div class="progress mt-3" style="height: 20px;">
-              <div class="progress-bar" role="progressbar" style="width: <?php echo $percentage; ?>%;" aria-valuenow="<?php echo $percentage; ?>" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" role="progressbar" style="width: <?php echo $percentage; ?>%; background-color: #F26419;" aria-valuenow="<?php echo $percentage; ?>" aria-valuemin="0" aria-valuemax="100">
                 <?php echo $percentage; ?>%
               </div>
             </div>
