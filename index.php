@@ -32,6 +32,22 @@ if($latestQuiz) {
     $quizType = "N/A";
     $percentage = 0;
 }
+
+// Fetch progress data for the "Progress Over Time" graph.
+$stmt = $pdo->prepare("SELECT created_at, score, total_questions FROM quiz_results WHERE user_id = ? ORDER BY created_at ASC");
+$stmt->execute([$_SESSION['user_id']]);
+$quizResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$chartLabels = [];
+$chartData = [];
+
+foreach ($quizResults as $result) {
+    // Format the date label (e.g., "Mar 15").
+    $chartLabels[] = date('M d', strtotime($result['created_at']));
+    // Compute the percentage for each quiz.
+    $perc = ($result['total_questions'] > 0) ? round(($result['score'] / $result['total_questions']) * 100) : 0;
+    $chartData[] = $perc;
+}
 ?>
 
 <!-- Main Container with some side spacing -->
@@ -156,60 +172,61 @@ if($latestQuiz) {
 <!-- Chart.js for Progress Over Time Graph -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-// Sample data for the graph; in a real application, this data could be fetched via AJAX.
-var ctx = document.getElementById('progressChart').getContext('2d');
-var chartData = {
-  labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-  datasets: [{
-    label: 'Quiz Score (%)',
-    data: [70, 80, 75, 85],
-    borderColor: 'blue',
-    borderWidth: 2,
-    fill: false,
-  }]
-};
-
-var progressChart = new Chart(ctx, {
-  type: 'line',
-  data: chartData,
-  options: {
-    scales: {
-      y: {
-        min: 0,
-        max: 100,
-        ticks: {
-          stepSize: 10
-        },
-        grid: {
-          drawBorder: false,
-          color: function(context) {
-            // Draw dotted threshold lines at specific values.
-            if (context.tick.value === 50) {
-              return 'orange';
-            } else if (context.tick.value === 75) {
-              return 'yellow';
-            } else if (context.tick.value === 90) {
-              return 'green';
-            }
-            return '#e9ecef';
-          },
-          borderDash: [2, 2]
-        }
-      }
+  // Use the PHP-generated arrays for labels and data.
+  var chartLabels = <?php echo json_encode($chartLabels); ?>;
+  var chartData = <?php echo json_encode($chartData); ?>;
+  
+  var ctx = document.getElementById('progressChart').getContext('2d');
+  var progressChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: chartLabels,
+      datasets: [{
+        label: 'Quiz Score (%)',
+        data: chartData,
+        borderColor: 'blue',
+        borderWidth: 2,
+        fill: false,
+      }]
     },
-    plugins: {
-      legend: {
-        display: false
+    options: {
+      scales: {
+        y: {
+          min: 0,
+          max: 100,
+          ticks: {
+            stepSize: 10
+          },
+          grid: {
+            drawBorder: false,
+            color: function(context) {
+              // Draw dotted threshold lines at specific values.
+              if (context.tick.value === 50) {
+                return 'orange';
+              } else if (context.tick.value === 75) {
+                return 'yellow';
+              } else if (context.tick.value === 90) {
+                return 'green';
+              }
+              return '#e9ecef';
+            },
+            borderDash: [2, 2]
+          }
+        }
       },
-      tooltip: {
-        callbacks: {
-          label: function(context) {
-            return context.parsed.y + '%';
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.parsed.y + '%';
+            }
           }
         }
       }
     }
-  }
-});
+  });
 </script>
 <?php include 'includes/footer.php'; ?>
