@@ -16,7 +16,7 @@ include 'includes/auth_check.php'; ?>
               <h5 class="card-title fw-bold">AI Practice Tests</h5>
               <img src="images/ai-icon.png" alt="AI Icon" style="width:40px; height:40px;">
             </div>
-            <p class="card-text fst-italic">Engage with AI-driven practice tests.</p>
+            <p class="card-text fst-italic">Engage with AI-developed practice tests, each test is formed wih 100 questions.</p>
           </div>
         </div>
       </a>
@@ -29,7 +29,7 @@ include 'includes/auth_check.php'; ?>
               <h5 class="card-title fw-bold">Mock Exams</h5>
               <img src="images/mock-icon.png" alt="Mock Exams Icon" style="width:40px; height:40px;">
             </div>
-            <p class="card-text fst-italic">Simulate the exam experience with full-length tests.</p>
+            <p class="card-text fst-italic">Simulate the exam experience with full-length 100 Question test.</p>
           </div>
         </div>
       </a>
@@ -47,7 +47,7 @@ include 'includes/auth_check.php'; ?>
               <h6 class="card-title fw-bold">Mathematics</h6>
               <img src="images/math-icon.png" alt="Mathematics Icon" style="width:25px; height:25px;">
             </div>
-            <p class="card-text fst-italic" style="font-size: 0.85rem;">Test your mathematical skills.</p>
+            <p class="card-text fst-italic" style="font-size: 0.85rem;">Test your mathematical skills with a 10 Question Quiz.</p>
           </div>
         </div>
       </a>
@@ -61,7 +61,7 @@ include 'includes/auth_check.php'; ?>
               <h6 class="card-title fw-bold">English</h6>
               <img src="images/english-icon.png" alt="English Icon" style="width:25px; height:25px;">
             </div>
-            <p class="card-text fst-italic" style="font-size: 0.85rem;">Improve your language skills.</p>
+            <p class="card-text fst-italic" style="font-size: 0.85rem;">Improve your language skills with a 10 Question Quiz.</p>
           </div>
         </div>
       </a>
@@ -75,7 +75,7 @@ include 'includes/auth_check.php'; ?>
               <h6 class="card-title fw-bold">Verbal Reasoning</h6>
               <img src="images/verbal-icon.png" alt="Verbal Reasoning Icon" style="width:25px; height:25px;">
             </div>
-            <p class="card-text fst-italic" style="font-size: 0.85rem;">Challenge your verbal logic.</p>
+            <p class="card-text fst-italic" style="font-size: 0.85rem;">Challenge your verbal logic with a 10 Question Quiz.</p>
           </div>
         </div>
       </a>
@@ -89,7 +89,7 @@ include 'includes/auth_check.php'; ?>
               <h6 class="card-title fw-bold">Non-Verbal Reasoning</h6>
               <img src="images/nonverbal-icon.png" alt="Non-Verbal Reasoning Icon" style="width:25px; height:25px;">
             </div>
-            <p class="card-text fst-italic" style="font-size: 0.85rem;">Test your pattern recognition skills.</p>
+            <p class="card-text fst-italic" style="font-size: 0.85rem;">Test your pattern recognition skills with a 10 Question Quiz.</p>
           </div>
         </div>
       </a>

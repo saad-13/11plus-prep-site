@@ -1,5 +1,5 @@
 <!-- includes/footer.php -->
-<footer class="text-center mt-4">
+  <footer class="text-center mt-4">
     <p>&copy; <?php echo date("Y"); ?> 11 Plus Prep. All rights reserved.</p>
   </footer>
   <!-- Bootstrap JS Bundle (includes Popper) -->

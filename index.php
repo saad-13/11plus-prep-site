@@ -152,9 +152,9 @@ var progressChart = new Chart(ctx, {
           color: function(context) {
             // Draw dotted threshold lines at 50, 75, and 90.
             if (context.tick.value === 50) {
+              return 'red';
+            } else if (context.tick.value === 70) {
               return 'orange';
-            } else if (context.tick.value === 75) {
-              return 'yellow';
             } else if (context.tick.value === 90) {
               return 'green';
             }
