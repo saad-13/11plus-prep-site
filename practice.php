@@ -26,7 +26,7 @@ include 'includes/auth_check.php'; ?>
         <div class="card h-100">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-start">
-              <h5 class="card-title fw-bold">Mock Exams</h5>
+              <h5 class="card-title fw-bold">Practice Papers</h5>
               <img src="images/exam-icon.png" alt="Mock Exams Icon" style="width:40px; height:40px;">
             </div>
             <p class="card-text fst-italic">Simulate the exam experience with full-length 100 Question test.</p>
