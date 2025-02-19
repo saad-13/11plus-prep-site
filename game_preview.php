@@ -11,7 +11,7 @@ if (empty($gameSlug)) {
     exit;
 }
 
-//game data (i need to store this in database).
+// game metadata (could also be stored in database).
 $games = [
     'verbal-challenge' => [
          'title' => 'Verbal Challenge',
@@ -59,6 +59,23 @@ $stmt = $pdo->prepare("SELECT u.username, gs.score
                        LIMIT 10");
 $stmt->execute([$gameSlug]);
 $leaderboard = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Check if the current user's score is already in the leaderboard.
+$userIncluded = false;
+foreach ($leaderboard as $entry) {
+    if ($entry['username'] === $_SESSION['username']) {
+        $userIncluded = true;
+        break;
+    }
+}
+// If not included (and the user has a score), add it.
+if (!$userIncluded && $userTopScore > 0) {
+    $leaderboard[] = ['username' => $_SESSION['username'], 'score' => $userTopScore];
+    // Re-sort the leaderboard by score in descending order.
+    usort($leaderboard, function($a, $b) {
+         return $b['score'] - $a['score'];
+    });
+}
 ?>
 
 <div class="container mt-5">
