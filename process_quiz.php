@@ -22,7 +22,7 @@ if (!$data) {
 // Extract payload data.
 $user_id = $_SESSION['user_id'];
 $quiz_type = isset($data['quiz_type']) ? $data['quiz_type'] : '';
-$subject = isset($data['subject']) ? $data['subject'] : null;
+$subject = isset($data['subject']) ? $data['subject'] : null; // Use this as quiz_type for subject quizzes.
 $score = isset($data['score']) ? (int)$data['score'] : 0;
 $total_questions = isset($data['total_questions']) ? (int)$data['total_questions'] : 0;
 $details = json_encode($data['details']);  // Store details as JSON
@@ -34,21 +34,33 @@ $result = $stmt->execute([$user_id, $quiz_type, $subject, $score, $total_questio
 if ($result) {
     // Get the last inserted id.
     $result_id = $pdo->lastInsertId();
-    
+
     // Calculate the percentage score.
     if ($total_questions > 0) {
         $percentage = ($score / $total_questions) * 100;
         
-        // If the user scored 80% or higher, update their difficulty level (max level 10).
-        if ($percentage >= 80) {
-            $stmt2 = $pdo->prepare("SELECT difficulty_level FROM users WHERE id = ?");
-            $stmt2->execute([$user_id]);
-            $row = $stmt2->fetch(PDO::FETCH_ASSOC);
-            if ($row && isset($row['difficulty_level']) && $row['difficulty_level'] < 10) {
-                $newDifficulty = $row['difficulty_level'] + 1;
-                $stmt3 = $pdo->prepare("UPDATE users SET difficulty_level = ? WHERE id = ?");
-                $stmt3->execute([$newDifficulty, $user_id]);
-            }
+        // Use the subject (if available) as the quiz_type for difficulty; otherwise, use quiz_type.
+        $currentQuizType = $subject ? $subject : $quiz_type;
+        
+        // Retrieve the current difficulty level for this user and quiz type from the user_difficulty table.
+        $stmt2 = $pdo->prepare("SELECT difficulty_level FROM user_difficulty WHERE user_id = ? AND quiz_type = ?");
+        $stmt2->execute([$user_id, $currentQuizType]);
+        $row = $stmt2->fetch(PDO::FETCH_ASSOC);
+        
+        // If no row exists, create one.
+        if (!$row) {
+            $stmtInsert = $pdo->prepare("INSERT INTO user_difficulty (user_id, quiz_type, difficulty_level) VALUES (?, ?, ?)");
+            $stmtInsert->execute([$user_id, $currentQuizType, 1]);
+            $currentDifficulty = 1;
+        } else {
+            $currentDifficulty = $row['difficulty_level'];
+        }
+        
+        // If the user scored 80% or higher and their difficulty level is less than 10, increase it.
+        if ($percentage >= 80 && $currentDifficulty < 10) {
+            $newDifficulty = $currentDifficulty + 1;
+            $stmt3 = $pdo->prepare("UPDATE user_difficulty SET difficulty_level = ? WHERE user_id = ? AND quiz_type = ?");
+            $stmt3->execute([$newDifficulty, $user_id, $currentQuizType]);
         }
     }
     

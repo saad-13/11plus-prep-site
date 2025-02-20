@@ -33,10 +33,17 @@ if (isset($_GET['type'])) {
     $description = "Test your skills in " . ucfirst($subject) . ".";
     $numQuestions = 10;
     
-    // Retrieve the current user's difficulty level.
-    $stmtDiff = $pdo->prepare("SELECT difficulty_level FROM users WHERE id = ?");
-    $stmtDiff->execute([$_SESSION['user_id']]);
+    // Retrieve the current user's difficulty level for this subject from user_difficulty.
+    $stmtDiff = $pdo->prepare("SELECT difficulty_level FROM user_difficulty WHERE user_id = ? AND quiz_type = ?");
+    $stmtDiff->execute([$_SESSION['user_id'], $subject]);
     $userDiff = $stmtDiff->fetchColumn();
+    
+    // If no record exists, default to 1 and insert it.
+    if (!$userDiff) {
+        $userDiff = 1;
+        $stmtInsert = $pdo->prepare("INSERT INTO user_difficulty (user_id, quiz_type, difficulty_level) VALUES (?, ?, ?)");
+        $stmtInsert->execute([$_SESSION['user_id'], $subject, $userDiff]);
+    }
     
     // Use the new SQL query that filters by difficulty level and subject.
     $stmt = $pdo->prepare("SELECT * FROM questions 
@@ -120,7 +127,6 @@ function displayQuestion(index) {
   document.getElementById('complete-btn').style.display = (index === questions.length - 1) ? 'inline-block' : 'none';
 }
 
-
 // Event listener for the "Next" button.
 document.getElementById('next-btn').addEventListener('click', () => {
   const form = document.getElementById('answer-form');
@@ -152,7 +158,7 @@ document.getElementById('complete-btn').addEventListener('click', () => {
     userAnswers[currentQuestionIndex] = answer;
   }
   
-  // Compute the results by comparing userAnswers with each question's correct_answer.
+  // Calculate the results by comparing userAnswers with each question's correct_answer.
   let correctCount = 0;
   let details = [];
   
