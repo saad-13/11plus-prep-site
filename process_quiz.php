@@ -34,6 +34,24 @@ $result = $stmt->execute([$user_id, $quiz_type, $subject, $score, $total_questio
 if ($result) {
     // Get the last inserted id.
     $result_id = $pdo->lastInsertId();
+    
+    // Calculate the percentage score.
+    if ($total_questions > 0) {
+        $percentage = ($score / $total_questions) * 100;
+        
+        // If the user scored 80% or higher, update their difficulty level (max level 10).
+        if ($percentage >= 80) {
+            $stmt2 = $pdo->prepare("SELECT difficulty_level FROM users WHERE id = ?");
+            $stmt2->execute([$user_id]);
+            $row = $stmt2->fetch(PDO::FETCH_ASSOC);
+            if ($row && isset($row['difficulty_level']) && $row['difficulty_level'] < 10) {
+                $newDifficulty = $row['difficulty_level'] + 1;
+                $stmt3 = $pdo->prepare("UPDATE users SET difficulty_level = ? WHERE id = ?");
+                $stmt3->execute([$newDifficulty, $user_id]);
+            }
+        }
+    }
+    
     echo json_encode(['success' => true, 'result_id' => $result_id]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Database error.']);

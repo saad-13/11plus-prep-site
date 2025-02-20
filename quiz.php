@@ -32,11 +32,19 @@ if (isset($_GET['type'])) {
     $title = ucfirst($subject) . " Practice";
     $description = "Test your skills in " . ucfirst($subject) . ".";
     $numQuestions = 10;
-    // Query to fetch 10 random questions for the selected subject.
-    $stmt = $pdo->prepare("SELECT * FROM questions WHERE subject = ? ORDER BY RAND() LIMIT ?");
-    $stmt->execute([$subject, $numQuestions]);
-    $questions = $stmt->fetchAll();
     
+    // Retrieve the current user's difficulty level.
+    $stmtDiff = $pdo->prepare("SELECT difficulty_level FROM users WHERE id = ?");
+    $stmtDiff->execute([$_SESSION['user_id']]);
+    $userDiff = $stmtDiff->fetchColumn();
+    
+    // Use the new SQL query that filters by difficulty level and subject.
+    $stmt = $pdo->prepare("SELECT * FROM questions 
+                           WHERE difficulty_level = ? 
+                             AND subject = ?
+                           ORDER BY RAND() LIMIT ?");
+    $stmt->execute([$userDiff, $subject, $numQuestions]);
+    $questions = $stmt->fetchAll();
 } else {
     // If no valid parameter, redirect back to the Practice page.
     header("Location: practice.php");
