@@ -60,6 +60,7 @@ if (session_status() == PHP_SESSION_NONE) {
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                     <li><a class="dropdown-item" href="profile.php">My Account</a></li>
                     <li><a class="dropdown-item" href="settings.php">Settings</a></li>
+                    <li><a class="dropdown-item" href="progress_reports.php">Progress Reports</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                 </ul>
