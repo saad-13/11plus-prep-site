@@ -95,4 +95,31 @@ body {
 
 
 
+
+  /* Dark Mode: dark background and light text */
+.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+  .dark-mode a {
+    color: #bb86fc;
+  }
+  
+  /* Color Blind Mode: adjust colors or add a grayscale filter (customize as needed) */
+  .color-blind-mode {
+    /* Example: a subtle grayscale filter */
+    filter: grayscale(50%);
+  }
+  
+  /* Larger Text: increase base font-size */
+  .larger-text {
+    font-size: 1.25em;
+  }
+  
+
+
+
+
+
+
   
