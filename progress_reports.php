@@ -46,9 +46,8 @@ $totalMockTests = count($mockResults);
 $sumMockPercentage = 0;
 $mockDates = [];
 $mockPercentages = [];
-
 foreach ($mockResults as $r) {
-    $perc = ($r['total_questions'] > 0) ? round(($r['score'] / $r['total_questions']) * 100, 2) : 0;
+    $perc = ($r['total_questions'] > 0) ? round(($r['score'] / $r['total_questions'])*100, 2) : 0;
     $sumMockPercentage += $perc;
     $mockDates[] = date('M d', strtotime($r['created_at']));
     $mockPercentages[] = $perc;
@@ -81,7 +80,7 @@ $avgMockPercentage = $totalMockTests > 0 ? round($sumMockPercentage / $totalMock
     <div class="card mb-4">
         <div class="card-header">Progress Over Time (Mock Exams & Practice Papers)</div>
         <div class="card-body">
-            <canvas id="mockProgressChart" width="400" height="200"></canvas>
+            <canvas id="mockProgressChart" width="400" height="250"></canvas>
         </div>
     </div>
     
@@ -98,7 +97,7 @@ $avgMockPercentage = $totalMockTests > 0 ? round($sumMockPercentage / $totalMock
                 </thead>
                 <tbody>
                     <?php foreach ($mockResults as $r): 
-                        $perc = ($r['total_questions'] > 0) ? round(($r['score'] / $r['total_questions']) * 100, 2) : 0;
+                        $perc = ($r['total_questions'] > 0) ? round(($r['score'] / $r['total_questions'])*100, 2) : 0;
                     ?>
                     <tr>
                         <td><?php echo date('M d, Y', strtotime($r['created_at'])); ?></td>
@@ -115,14 +114,12 @@ $avgMockPercentage = $totalMockTests > 0 ? round($sumMockPercentage / $totalMock
     
     <!-- Section 2: Subject Test Results -->
     <?php
-    // Define an array of subjects for subject tests.
     $subjects = ['mathematics', 'english', 'verbal', 'nonverbal'];
     ?>
     <div class="card mb-4">
         <div class="card-header"><strong>Subject Test Results</strong></div>
         <div class="card-body">
             <?php foreach ($subjects as $subj): 
-                // For subject tests, we consider only results with quiz_type 'subject'
                 $stmtSub = $pdo->prepare("SELECT * FROM quiz_results 
                                           WHERE user_id = ? 
                                             AND quiz_type = 'subject'
@@ -136,7 +133,7 @@ $avgMockPercentage = $totalMockTests > 0 ? round($sumMockPercentage / $totalMock
                 $subjDates = [];
                 $subjPercentages = [];
                 foreach ($subjResults as $r) {
-                    $p = ($r['total_questions'] > 0) ? round(($r['score'] / $r['total_questions']) * 100, 2) : 0;
+                    $p = ($r['total_questions'] > 0) ? round(($r['score'] / $r['total_questions'])*100, 2) : 0;
                     $sumSubjPercentage += $p;
                     $subjDates[] = date('M d', strtotime($r['created_at']));
                     $subjPercentages[] = $p;
@@ -147,7 +144,7 @@ $avgMockPercentage = $totalMockTests > 0 ? round($sumMockPercentage / $totalMock
             <p><strong>Total Tests:</strong> <?php echo $totalSubjTests; ?>, <strong>Average Score:</strong> <?php echo $avgSubjPercentage; ?>%</p>
             <?php if ($totalSubjTests > 0): ?>
             <div class="mb-3">
-                <canvas id="chart_<?php echo $subj; ?>" width="400" height="200"></canvas>
+                <canvas id="chart_<?php echo $subj; ?>" width="400" height="250"></canvas>
             </div>
             <table class="table table-striped">
                 <thead>
@@ -158,7 +155,7 @@ $avgMockPercentage = $totalMockTests > 0 ? round($sumMockPercentage / $totalMock
                 </thead>
                 <tbody>
                     <?php foreach ($subjResults as $r): 
-                        $p = ($r['total_questions'] > 0) ? round(($r['score'] / $r['total_questions']) * 100, 2) : 0;
+                        $p = ($r['total_questions'] > 0) ? round(($r['score'] / $r['total_questions'])*100, 2) : 0;
                     ?>
                     <tr>
                         <td><?php echo date('M d, Y', strtotime($r['created_at'])); ?></td>
@@ -196,11 +193,22 @@ var mockProgressChart = new Chart(ctxMock, {
         }]
     },
     options: {
+        maintainAspectRatio: false,
         scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Date'
+                }
+            },
             y: {
                 min: 0,
                 max: 100,
-                ticks: { stepSize: 10 }
+                ticks: { stepSize: 10 },
+                title: {
+                    display: true,
+                    text: 'Score (%)'
+                }
             }
         },
         plugins: { legend: { display: false } }
@@ -209,7 +217,6 @@ var mockProgressChart = new Chart(ctxMock, {
 
 // Charts for each subject test.
 <?php foreach ($subjects as $subj): 
-    // Prepare data for each subject.
     $stmtSub = $pdo->prepare("SELECT * FROM quiz_results 
                               WHERE user_id = ? 
                                 AND quiz_type = 'subject'
@@ -221,7 +228,7 @@ var mockProgressChart = new Chart(ctxMock, {
     $subjDates = [];
     $subjPercentages = [];
     foreach ($subjResults as $r) {
-        $p = ($r['total_questions'] > 0) ? round(($r['score'] / $r['total_questions']) * 100, 2) : 0;
+        $p = ($r['total_questions'] > 0) ? round(($r['score'] / $r['total_questions'])*100, 2) : 0;
         $subjDates[] = date('M d', strtotime($r['created_at']));
         $subjPercentages[] = $p;
     }
@@ -241,11 +248,22 @@ var chart_<?php echo $subj; ?> = new Chart(ctx_<?php echo $subj; ?>, {
         }]
     },
     options: {
+        maintainAspectRatio: false,
         scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Date'
+                }
+            },
             y: {
                 min: 0,
                 max: 100,
-                ticks: { stepSize: 10 }
+                ticks: { stepSize: 10 },
+                title: {
+                    display: true,
+                    text: 'Score (%)'
+                }
             }
         },
         plugins: { legend: { display: false } }
