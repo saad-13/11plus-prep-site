@@ -122,4 +122,24 @@ body {
 
 
 
-  
+  /* Fixed dimensions for subject navigation cards */
+.subject-card {
+  width: 18rem;       /* Fixed width */
+  height: 5rem;      /* Fixed height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Center the card-body content vertically */
+.subject-card .card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* If you are using a Bootstrap row for topics, you can adjust the gutter */
+.row.g-2 {
+  gap: 0.5rem !important;
+}

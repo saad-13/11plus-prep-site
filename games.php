@@ -6,7 +6,7 @@ include 'includes/db.php';
 ?>
 
 <div class="container mt-5">
-  <h2>Educational Games</h2>
+  <h2 style="color: #F26419;">Educational Games</h2>
   <p class="fst-italic">Select a game to play and improve your skills for the 11 Plus exam.</p>
   <div class="row row-cols-1 row-cols-md-2 g-4">
     <!-- Verbal Challenge Card -->

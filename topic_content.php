@@ -1,33 +1,43 @@
 <?php
-include 'includes/header.php';
+//session_start();
+include 'includes/auth_check.php';
 include 'includes/db.php';
 
-// Get subject and topic from query parameters
-$subject = isset($_GET['subject']) ? $_GET['subject'] : '';
-$topicSlug = isset($_GET['topic']) ? $_GET['topic'] : '';
+// Check if topic_id is provided.
+if (!isset($_GET['topic_id'])) {
+    echo "No topic specified.";
+    exit;
+}
 
-// Query database for the topic details.
-// !!!!! Need to make sure database has a 'topics' table with appropriate columns.
-$stmt = $pdo->prepare("SELECT * FROM topics WHERE subject = ? AND slug = ?");
-$stmt->execute([$subject, $topicSlug]);
-$topic = $stmt->fetch();
+$topic_id = $_GET['topic_id'];
+
+// Retrieve the topic from the database.
+$stmt = $pdo->prepare("SELECT * FROM topics WHERE id = ?");
+$stmt->execute([$topic_id]);
+$topic = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$topic) {
-    echo "<div class='container mt-5'><p>Topic not found.</p></div>";
-    include 'includes/footer.php';
+    echo "Topic not found.";
     exit;
 }
 ?>
-<div class="container mt-4">
-  <div class="d-flex align-items-center mb-3">
-    <a href="topic_selection.php?subject=<?php echo urlencode($subject); ?>" class="btn btn-secondary me-3">Back</a>
-    <h2 class="mb-0"><?php echo htmlspecialchars($topic['title']); ?></h2>
-  </div>
-  <div class="mt-3">
-    <?php
-    // Display the content of the topic
-    echo $topic['content'];
-    ?>
-  </div>
+<?php include 'includes/header.php'; ?>
+
+<div class="container mt-5">
+    <div class="d-flex align-items-center mb-3">
+        <!-- Back button returns to the Learn page for the current subject -->
+        <a href="learn.php?subject=<?php echo urlencode($topic['subject']); ?>" class="btn btn-secondary me-3">Back</a>
+        <h2 class="mb-0"><?php echo htmlspecialchars($topic['title']); ?></h2>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <?php
+            // Output the topic content.
+            // If content contains HTML markup, it can be echoed directly.
+            echo $topic['content'];
+            ?>
+        </div>
+    </div>
 </div>
+
 <?php include 'includes/footer.php'; ?>
