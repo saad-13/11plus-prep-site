@@ -12,9 +12,9 @@ include 'includes/header.php';
 include 'includes/db.php';
 
 // Fetch the latest quiz result for the logged-in user.
-$stmt = $pdo->prepare("SELECT * FROM quiz_results WHERE user_id = ? ORDER BY created_at DESC LIMIT 1");
-$stmt->execute([$_SESSION['user_id']]);
-$latestQuiz = $stmt->fetch();
+$stmtLatest = $pdo->prepare("SELECT * FROM quiz_results WHERE user_id = ? ORDER BY created_at DESC LIMIT 1");
+$stmtLatest->execute([$_SESSION['user_id']]);
+$latestQuiz = $stmtLatest->fetch();
 
 if($latestQuiz) {
     $score = $latestQuiz['score'];
@@ -33,14 +33,28 @@ if($latestQuiz) {
     $percentage = 0;
 }
 
-// Fetch progress data for the "Progress Over Time" graph.
-$stmt = $pdo->prepare("SELECT created_at, score, total_questions FROM quiz_results WHERE user_id = ? ORDER BY created_at ASC");
-$stmt->execute([$_SESSION['user_id']]);
-$quizResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Determine graph filter; default to "all".
+$graphFilter = isset($_GET['graphFilter']) ? $_GET['graphFilter'] : 'all';
+
+// Build query for graph data based on $graphFilter.
+if($graphFilter == 'all'){
+    $stmtGraph = $pdo->prepare("SELECT created_at, score, total_questions FROM quiz_results WHERE user_id = ? ORDER BY created_at ASC");
+    $stmtGraph->execute([$_SESSION['user_id']]);
+} elseif($graphFilter == 'practice'){
+    $stmtGraph = $pdo->prepare("SELECT created_at, score, total_questions FROM quiz_results WHERE user_id = ? AND quiz_type IN ('mock','ai') ORDER BY created_at ASC");
+    $stmtGraph->execute([$_SESSION['user_id']]);
+} elseif(in_array($graphFilter, ['mathematics','english','verbal','nonverbal'])){
+    $stmtGraph = $pdo->prepare("SELECT created_at, score, total_questions FROM quiz_results WHERE user_id = ? AND quiz_type = 'subject' AND subject = ? ORDER BY created_at ASC");
+    $stmtGraph->execute([$_SESSION['user_id'], $graphFilter]);
+} else {
+    // Default to all.
+    $stmtGraph = $pdo->prepare("SELECT created_at, score, total_questions FROM quiz_results WHERE user_id = ? ORDER BY created_at ASC");
+    $stmtGraph->execute([$_SESSION['user_id']]);
+}
+$quizResults = $stmtGraph->fetchAll(PDO::FETCH_ASSOC);
 
 $chartLabels = [];
 $chartData = [];
-
 foreach ($quizResults as $result) {
     // Format the date label (e.g., "Mar 15").
     $chartLabels[] = date('M d', strtotime($result['created_at']));
@@ -139,16 +153,29 @@ foreach ($quizResults as $result) {
     </div>
   </div>
 
+  <!-- Dropdown Filter Above Progress Over Time Graph -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="graphFilterSelect" class="form-label">Select Graph Data:</label>
+      <select id="graphFilterSelect" class="form-select">
+        <option value="all" <?php if($graphFilter=='all') echo 'selected'; ?>>All Tests</option>
+        <option value="practice" <?php if($graphFilter=='practice') echo 'selected'; ?>>Practice Tests</option>
+        <option value="mathematics" <?php if($graphFilter=='mathematics') echo 'selected'; ?>>Mathematics</option>
+        <option value="english" <?php if($graphFilter=='english') echo 'selected'; ?>>English</option>
+        <option value="verbal" <?php if($graphFilter=='verbal') echo 'selected'; ?>>Verbal</option>
+        <option value="nonverbal" <?php if($graphFilter=='nonverbal') echo 'selected'; ?>>Non-Verbal</option>
+      </select>
+    </div>
+  </div>
+
   <!-- Progress Over Time Card -->
   <div class="row">
     <div class="col-md-12 mb-4">
       <div class="card">
-        <div class="card-header">
-          Progress Over Time
-        </div>
+        <div class="card-header">Progress Over Time</div>
         <div class="card-body">
-          <!-- Chart.js canvas for the progress graph -->
-          <canvas id="progressChart" width="400" height="200"></canvas>
+          <!-- canvas size: 400x180 -->
+          <canvas id="progressChart" width="400" height="280"></canvas>
         </div>
       </div>
     </div>
@@ -172,7 +199,13 @@ foreach ($quizResults as $result) {
 <!-- Chart.js for Progress Over Time Graph -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // Use the PHP-generated arrays for labels and data.
+  // When user changes the drop down, reload the page with the selected filter.
+  document.getElementById('graphFilterSelect').addEventListener('change', function() {
+    var selected = this.value;
+    window.location.href = "index.php?graphFilter=" + encodeURIComponent(selected);
+  });
+
+  // Using the PHP-generated arrays for labels and data.
   var chartLabels = <?php echo json_encode($chartLabels); ?>;
   var chartData = <?php echo json_encode($chartData); ?>;
   
@@ -190,27 +223,23 @@ foreach ($quizResults as $result) {
       }]
     },
     options: {
+      maintainAspectRatio: false,
       scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Date'
+          }
+        },
         y: {
           min: 0,
           max: 100,
           ticks: {
             stepSize: 10
           },
-          grid: {
-            drawBorder: false,
-            color: function(context) {
-              // Draw dotted threshold lines at specific values.
-              if (context.tick.value === 50) {
-                return 'orange';
-              } else if (context.tick.value === 75) {
-                return 'yellow';
-              } else if (context.tick.value === 90) {
-                return 'green';
-              }
-              return '#e9ecef';
-            },
-            borderDash: [2, 2]
+          title: {
+            display: true,
+            text: 'Score (%)'
           }
         }
       },
