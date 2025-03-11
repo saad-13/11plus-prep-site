@@ -37,38 +37,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <?php include 'includes/header.php'; ?>
-<div class="container mt-5">
-  <h2>Sign Up</h2>
-  <?php if (!empty($errors)): ?>
-    <div class="alert alert-danger">
-      <?php foreach ($errors as $error): ?>
-          <p><?php echo htmlspecialchars($error); ?></p>
-      <?php endforeach; ?>
+<div class="wrapper">
+  <div class="content">
+    <div class="container mt-5">
+      <h2>Sign Up</h2>
+      <?php if (!empty($errors)): ?>
+        <div class="alert alert-danger">
+          <?php foreach ($errors as $error): ?>
+              <p><?php echo htmlspecialchars($error); ?></p>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+      <form id="signupForm" action="signup.php" method="post">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username:</label>
+          <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email:</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="confirmEmail" class="form-label">Confirm Email:</label>
+          <input type="email" class="form-control" id="confirmEmail" name="confirmEmail" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password:</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Confirm Password:</label>
+          <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+      </form>
+      <p class="mt-3">Already have an account? <a href="login.php">Log In</a></p>
     </div>
-  <?php endif; ?>
-  <form id="signupForm" action="signup.php" method="post">
-    <div class="mb-3">
-      <label for="username" class="form-label">Username:</label>
-      <input type="text" class="form-control" id="username" name="username" required>
-    </div>
-    <div class="mb-3">
-      <label for="email" class="form-label">Email:</label>
-      <input type="email" class="form-control" id="email" name="email" required>
-    </div>
-    <div class="mb-3">
-      <label for="confirmEmail" class="form-label">Confirm Email:</label>
-      <input type="email" class="form-control" id="confirmEmail" name="confirmEmail" required>
-    </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password:</label>
-      <input type="password" class="form-control" id="password" name="password" required>
-    </div>
-    <div class="mb-3">
-      <label for="confirmPassword" class="form-label">Confirm Password:</label>
-      <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Sign Up</button>
-  </form>
-  <p class="mt-3">Already have an account? <a href="login.php">Log In</a></p>
+  </div>
+  <?php include 'includes/footer.php'; ?>
 </div>
-<?php include 'includes/footer.php'; ?>

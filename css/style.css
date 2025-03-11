@@ -12,6 +12,26 @@
     --card-border: #e0e0e0;     /* Light gray borders for cards */
   }
 
+/* Make html and body full height */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Wrapper that holds all page content */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Content area that grows to fill available space */
+.content {
+  flex: 1;
+}
+
+
 /* Body Gradient Background */
 body {
     background: linear-gradient(to bottom right, #C2DCEC, #F2CFC2);
@@ -105,9 +125,9 @@ body {
     color: #bb86fc;
   }
   
-  /* Color Blind Mode: adjust colors or add a grayscale filter (customize as needed) */
+  /* Color Blind Mode: adjust colors or add a grayscale filter */
   .color-blind-mode {
-    /* Example: a subtle grayscale filter */
+    /* a subtle grayscale filter */
     filter: grayscale(50%);
   }
   
@@ -139,7 +159,7 @@ body {
   justify-content: center;
 }
 
-/* If you are using a Bootstrap row for topics, you can adjust the gutter */
+
 .row.g-2 {
   gap: 0.5rem !important;
 }

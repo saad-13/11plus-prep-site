@@ -70,61 +70,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <?php include 'includes/header.php'; ?>
-
-<div class="container mt-5">
-    <h2>My Account - Edit Profile</h2>
-    
-    <!-- Display errors if any -->
-    <?php if (!empty($errors)): ?>
-        <div class="alert alert-danger">
-            <ul>
-            <?php foreach ($errors as $error): ?>
-                <li><?php echo htmlspecialchars($error); ?></li>
-            <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
-    
-    <!-- Display success message -->
-    <?php if ($success): ?>
-        <div class="alert alert-success">
-            <?php echo htmlspecialchars($success); ?>
-        </div>
-    <?php endif; ?>
-    
-    <!-- My Details Card -->
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <span>Edit My Details</span>
-            <!-- A cancel button linking back to the profile page -->
-            <a href="profile.php" class="btn btn-sm btn-outline-secondary">Cancel</a>
-        </div>
-        <div class="card-body">
-            <form method="post" action="">
-                <div class="mb-3">
-                    <label for="full_name" class="form-label">Full Name</label>
-                    <input type="text" class="form-control" id="full_name" name="full_name" value="<?php echo htmlspecialchars($user['full_name'] ?? $user['username']); ?>">
+<div class="wrapper">
+  <div class="content">
+        <div class="container mt-5">
+            <h2>My Account - Edit Profile</h2>
+            
+            <!-- Display errors if any -->
+            <?php if (!empty($errors)): ?>
+                <div class="alert alert-danger">
+                    <ul>
+                    <?php foreach ($errors as $error): ?>
+                        <li><?php echo htmlspecialchars($error); ?></li>
+                    <?php endforeach; ?>
+                    </ul>
                 </div>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars($user['username']); ?>">
+            <?php endif; ?>
+            
+            <!-- Display success message -->
+            <?php if ($success): ?>
+                <div class="alert alert-success">
+                    <?php echo htmlspecialchars($success); ?>
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>">
+            <?php endif; ?>
+            
+            <!-- My Details Card -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Edit My Details</span>
+                    <!-- A cancel button linking back to the profile page -->
+                    <a href="profile.php" class="btn btn-sm btn-outline-secondary">Cancel</a>
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">New Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Leave blank to keep current password">
+                <div class="card-body">
+                    <form method="post" action="">
+                        <div class="mb-3">
+                            <label for="full_name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="full_name" name="full_name" value="<?php echo htmlspecialchars($user['full_name'] ?? $user['username']); ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars($user['username']); ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Leave blank to keep current password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Leave blank to keep current password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label for="confirm_password" class="form-label">Confirm New Password</label>
-                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Leave blank to keep current password">
-                </div>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </form>
+            </div>
         </div>
     </div>
+    <?php include 'includes/footer.php'; ?>
 </div>
-
-<?php include 'includes/footer.php'; ?>

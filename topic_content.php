@@ -23,21 +23,24 @@ if (!$topic) {
 ?>
 <?php include 'includes/header.php'; ?>
 
-<div class="container mt-5">
-    <div class="d-flex align-items-center mb-3">
-        <!-- Back button returns to the Learn page for the current subject -->
-        <a href="learn.php?subject=<?php echo urlencode($topic['subject']); ?>" class="btn btn-secondary me-3">Back</a>
-        <h2 class="mb-0"><?php echo htmlspecialchars($topic['title']); ?></h2>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <?php
-            // Output the topic content.
-            // If content contains HTML markup, it can be echoed directly.
-            echo $topic['content'];
-            ?>
+<div class="wrapper">
+  <div class="content">
+    <div class="container mt-5">
+        <div class="d-flex align-items-center mb-3">
+            <!-- Back button returns to the Learn page for the current subject -->
+            <a href="learn.php?subject=<?php echo urlencode($topic['subject']); ?>" class="btn btn-secondary me-3">Back</a>
+            <h2 class="mb-0"><?php echo htmlspecialchars($topic['title']); ?></h2>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <?php
+                // Output the topic content.
+                // If content contains HTML markup, it can be echoed directly.
+                echo $topic['content'];
+                ?>
+            </div>
         </div>
     </div>
+  </div>
+  <?php include 'includes/footer.php'; ?>
 </div>
-
-<?php include 'includes/footer.php'; ?>
