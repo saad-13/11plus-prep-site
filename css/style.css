@@ -1,165 +1,157 @@
 /* css/style.css */
 
-/* color scheme */
+/* Color Scheme & Variables */
 :root {
-    --primary-color: #4a90e2;   /* A vibrant blue */
-    --accent-color: #F26419;    /* A fresh orange accent */
-    --secondary-color: #f3f3f3; /* White for backgrounds */
-    --text-color: #333333;      /* Dark gray for text */
-    --navbar-bg: #f2f2f2;       /* navbar background */
-    --navbar-text: #6e6e6e;     /* text in the navbar */
-    --card-bg: #ffffff;         /* White card backgrounds */
-    --card-border: #e0e0e0;     /* Light gray borders for cards */
-  }
+  --primary-color: #4a90e2;       /* A vibrant blue */
+  --accent-color: #F26419;        /* A fresh orange accent */
+  --accent-color-light: #FFA07A;  /* A light orange accent */
+  --secondary-color: #f3f3f3;       /* Light background color for cards */
+  --text-color: #333333;          /* Dark gray for text */
+  --navbar-bg: #ffffff;           /* Clean white navbar */
+  --navbar-text: #6e6e6e;         /* Subtle gray for navbar text */
+  --card-bg: #ffffff;             /* White card backgrounds */
+  --card-border: #e0e0e0;         /* Light gray borders for cards */
+  --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);  /* Subtle shadow for depth */
+  --transition-speed: 0.3s;
+  --font-family-base: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
 
-/* Make html and body full height */
+/* Global Reset & Box-Sizing */
+* {
+  box-sizing: border-box;
+}
+
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  font-family: var(--font-family-base);
 }
 
-/* Wrapper that holds all page content */
+/* Wrapper for Full-Page Layout */
 .wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-/* Content area that grows to fill available space */
+/* Content Area */
 .content {
   flex: 1;
+  padding: 1rem;
 }
 
-
-/* Body Gradient Background */
+/* Body Background: Using a subtle gradient */
 body {
-    background: linear-gradient(to bottom right, #C2DCEC, #F2CFC2);
-    color: var(--text-color);
-  }
-  
-  /* Navbar Customization */
-  .navbar {
-    background-color: var(--navbar-bg);
-  }
-  
-  .navbar-nav .nav-link {
-    color: #333333 !important; /* Base dark gray text */
-  }
-  
-  .navbar-nav .nav-link.active {
-    color: #F26419 !important; /* Highlighted color for the active/current page */
-    font-weight: bold;
-  }
-  
-  /*dropdown menu items  */
-  .dropdown-menu .dropdown-item {
-    color: #333333;
-  }
-  
-  .dropdown-menu .dropdown-item:hover {
-    background-color: var(--accent-color);
-    color: #fff;
-  }
-  
-  
-  /* Buttons */
-  .btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-  }
-  
-  .btn-primary:hover {
-    background-color: #3a7bd5; /* Slightly darker blue for hover */
-    border-color: #3a7bd5;
-  }
-  
-  /* Cards */
-  .card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--card-border);
-  }
-  
-  /* General body styling */
-  body {
-    background-color: var(--secondary-color);
-    color: var(--text-color);
-  }
-  
-  /* Footer */
-  footer {
-    background-color: var(--navbar-bg);
-    color: var(--navbar-text);
-    text-align: center;
-    padding: 10px 0;
-  }
-  
-  /* Headings */
-  h1, h2, h3, h4, h5, h6 {
-    color: var(--primary-color);
-  }
-  
-  /* Profile Dropdown Items */
-  .dropdown-menu .dropdown-item {
-    color: var(--navbar-text);
-  }
-  
-  .dropdown-menu .dropdown-item:hover {
-    background-color: var(--accent-color);
-  }
-  
+  background: linear-gradient(to bottom right, #C2DCEC, #F2CFC2);
+  color: var(--text-color);
+}
 
+/* Navbar  */
+.navbar {
+  background-color: var(--navbar-bg);
+  box-shadow: var(--box-shadow);
+}
+.navbar-nav .nav-link {
+  color: var(--text-color) !important;
+  transition: color var(--transition-speed);
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: var(--accent-color) !important;
+  font-weight: bold;
+}
 
+/* Dropdown Menu Items */
+.dropdown-menu .dropdown-item {
+  color: var(--navbar-text);
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+.dropdown-menu .dropdown-item:hover {
+  background-color: var(--accent-color);
+  color: #fff;
+}
 
+/* Buttons */
+.btn-primary {
+  background-color: var(--accent-color-light);
+  border-color: var(--text-color);
+  color: var(--text-color);
+  transition: background-color var(--transition-speed), border-color var(--transition-speed);
+}
+.btn-primary:hover {
+  background-color: var(--accent-color);
+  border-color: var(--text-color);
+}
 
+/* Card Styling */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--box-shadow);
+  text-align: center;
+  border-radius: 8px;
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
 
+.card-title {
+  text-align: center;
+}
 
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--accent-color);
+  text-emphasis: bold;
+}
 
+/* Footer */
+footer {
+  background-color: var(--navbar-bg);
+  color: var(--navbar-text);
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9em;
+}
 
-  /* Dark Mode: dark background and light text */
-.dark-mode {
-    background-color: #121212;
-    color: #e0e0e0;
-  }
-  .dark-mode a {
-    color: #bb86fc;
-  }
-  
-  /* Color Blind Mode: adjust colors or add a grayscale filter */
-  .color-blind-mode {
-    /* a subtle grayscale filter */
-    filter: grayscale(50%);
-  }
-  
-  /* Larger Text: increase base font-size */
-  .larger-text {
-    font-size: 1.25em;
-  }
-  
-
-
-
-
-
-
-  /* Fixed dimensions for subject navigation cards */
+/* Subject Navigation Cards */
 .subject-card {
-  width: 18rem;       /* Fixed width */
-  height: 5rem;      /* Fixed height */
+  width: 18rem;         /* Fixed width */
+  height: 5rem;         /* Fixed height */
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+  transition: transform var(--transition-speed);
+}
+.subject-card:hover {
+  transform: translateY(-2px);
 }
 
-/* Center the card-body content vertically */
-.subject-card .card-body {
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-
+/* Gap for Rows */
 .row.g-2 {
   gap: 0.5rem !important;
+}
+
+/* Dark Mode */
+.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+.dark-mode a {
+  color: #bb86fc;
+}
+
+/* Color Blind Mode */
+.color-blind-mode {
+  filter: grayscale(50%);
+}
+
+/* Larger Text */
+.larger-text {
+  font-size: 1.25em;
 }
