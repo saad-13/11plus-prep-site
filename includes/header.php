@@ -19,6 +19,27 @@ if (session_status() == PHP_SESSION_NONE) {
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+<script>
+// Immediately apply accessibility settings on page load.
+(function() {
+    const darkMode = localStorage.getItem('darkMode') === 'true';
+    const colorBlind = localStorage.getItem('colorBlind') === 'true';
+    const largerText = localStorage.getItem('largerText') === 'true';
+
+    if(darkMode) {
+        document.body.classList.add('dark-mode');
+    }
+    if(colorBlind) {
+        document.body.classList.add('color-blind-mode');
+    }
+    if(largerText) {
+        document.body.classList.add('larger-text');
+    }
+})();
+</script>
+
+
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">

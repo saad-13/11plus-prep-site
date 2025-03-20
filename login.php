@@ -32,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <?php include 'includes/header.php'; ?>
+<div class="wrapper">
+<div class="content">
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
@@ -79,4 +81,6 @@ document.getElementById('password').addEventListener('blur', function() {
 });
 </script>
 
+</div>
 <?php include 'includes/footer.php'; ?>
+</div>
