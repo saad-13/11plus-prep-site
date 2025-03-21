@@ -1,25 +1,38 @@
 <?php 
-$currentPage = 'profile';
-include 'includes/auth_check.php';
+  $currentPage = 'profile';
+  include 'includes/auth_check.php';
+  include 'includes/db.php';
+  include 'includes/header.php'; 
+  // Check if user is logged in; if not, redirect to login.
+  if (!isset($_SESSION['user_id'])) {
+      header("Location: login.php");
+      exit;
+  }
 
-// Check if user is logged in; if not, redirect to login.
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
 
-include 'includes/db.php';
-
-$stmt = $pdo->prepare("SELECT full_name, username, email, progress, badges FROM users WHERE id = ?");
-$stmt->execute([$_SESSION['user_id']]);
-$user = $stmt->fetch();
+  // Fetch user details including profile picture.
+  $stmt = $pdo->prepare("SELECT full_name, username, email, progress, badges, profile_picture FROM users WHERE id = ?");
+  $stmt->execute([$_SESSION['user_id']]);
+  $user = $stmt->fetch();
 ?>
-<?php include 'includes/header.php'; ?>
+
 
 <div class="wrapper">
   <div class="content">
     <div class="container mt-5">
       <h2 style="color: #F26419;">My Account</h2>
+      
+      <!-- Profile Picture Section -->
+      <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span>Profile Picture</span>
+          <!-- Link to the page where the user can select from available pictures -->
+          <a href="edit_profile_picture.php" class="btn btn-sm btn-outline-primary">Change Picture</a>
+        </div>
+        <div class="card-body text-center">
+          <img src="images/profile/<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profile Picture" class="img-thumbnail" style="width:150px; height:150px;">
+        </div>
+      </div>
       
       <!-- My Details Section -->
       <div class="card mb-4">
