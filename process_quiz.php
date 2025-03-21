@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Read the JSON payload.
+// Read the JSON.
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
@@ -19,10 +19,10 @@ if (!$data) {
     exit;
 }
 
-// Extract payload data.
+// Extract data.
 $user_id = $_SESSION['user_id'];
 $quiz_type = isset($data['quiz_type']) ? $data['quiz_type'] : '';
-$subject = isset($data['subject']) ? $data['subject'] : null; // Use this as quiz_type for subject quizzes.
+$subject = isset($data['subject']) ? $data['subject'] : null; // For subject tests.
 $score = isset($data['score']) ? (int)$data['score'] : 0;
 $total_questions = isset($data['total_questions']) ? (int)$data['total_questions'] : 0;
 $details = json_encode($data['details']);  // Store details as JSON
@@ -39,33 +39,38 @@ if ($result) {
     if ($total_questions > 0) {
         $percentage = ($score / $total_questions) * 100;
         
-        // Use the subject (if available) as the quiz_type for difficulty; otherwise, use quiz_type.
-        $currentQuizType = $subject ? $subject : $quiz_type;
-        
-        // Retrieve the current difficulty level for this user and quiz type from the user_difficulty table.
-        $stmt2 = $pdo->prepare("SELECT difficulty_level FROM user_difficulty WHERE user_id = ? AND quiz_type = ?");
-        $stmt2->execute([$user_id, $currentQuizType]);
-        $row = $stmt2->fetch(PDO::FETCH_ASSOC);
-        
-        // If no row exists, create one.
-        if (!$row) {
-            $stmtInsert = $pdo->prepare("INSERT INTO user_difficulty (user_id, quiz_type, difficulty_level) VALUES (?, ?, ?)");
-            $stmtInsert->execute([$user_id, $currentQuizType, 1]);
-            $currentDifficulty = 1;
-        } else {
-            $currentDifficulty = $row['difficulty_level'];
+        // Award "Mastery" if full marks.
+        if ($percentage == 100) {
+            awardAchievement($pdo, $user_id, "Mastery");
         }
         
-        // If the user scored 80% or higher and their difficulty level is less than 10, increase it.
-        if ($percentage >= 80 && $currentDifficulty < 10) {
-            $newDifficulty = $currentDifficulty + 1;
-            $stmt3 = $pdo->prepare("UPDATE user_difficulty SET difficulty_level = ? WHERE user_id = ? AND quiz_type = ?");
-            $stmt3->execute([$newDifficulty, $user_id, $currentQuizType]);
+        // For subject tests, award "Subject Master: [Subject]" if user gets full marks.
+        if ($quiz_type === 'subject' && !empty($subject) && $percentage == 100) {
+            awardAchievement($pdo, $user_id, "Subject Master: " . ucfirst($subject));
         }
     }
     
     echo json_encode(['success' => true, 'result_id' => $result_id]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Database error.']);
+}
+
+/**
+ * Award an achievement to the user if not already awarded.
+ */
+function awardAchievement($pdo, $user_id, $achievement) {
+    // Fetch the current achievements (badges) for the user.
+    $stmtBadge = $pdo->prepare("SELECT badges FROM users WHERE id = ?");
+    $stmtBadge->execute([$user_id]);
+    $badges = $stmtBadge->fetchColumn();
+    $badgesArr = $badges ? json_decode($badges, true) : [];
+    
+    // If the achievement isn't already in the array, add it.
+    if (!in_array($achievement, $badgesArr)) {
+        $badgesArr[] = $achievement;
+        $newBadges = json_encode($badgesArr);
+        $stmtUpdateBadge = $pdo->prepare("UPDATE users SET badges = ? WHERE id = ?");
+        $stmtUpdateBadge->execute([$newBadges, $user_id]);
+    }
 }
 ?>

@@ -16,22 +16,22 @@ $games = [
     'verbal-challenge' => [
          'title' => 'Verbal Challenge',
          'description' => 'Enhance your language and vocabulary skills with fun word puzzles.',
-         'image' => 'images/verbal-challenge.jpg'
+         'image' => 'images/verbal-challenge.png'
     ],
     'math-blitz' => [
          'title' => 'Math Blitz',
          'description' => 'Test your arithmetic and problem-solving speed in this fast-paced game.',
-         'image' => 'images/math-blitz.jpg'
+         'image' => 'images/math-blitz.png'
     ],
     'logical-reasoning' => [
          'title' => 'Logical Reasoning',
          'description' => 'Sharpen your critical thinking and logic skills with challenging puzzles.',
-         'image' => 'images/logical-reasoning.jpg'
+         'image' => 'images/logical-reasoning.png'
     ],
     'pattern-recognition' => [
          'title' => 'Pattern Recognition',
          'description' => 'Improve your visual and spatial reasoning with exciting pattern challenges.',
-         'image' => 'images/pattern-recognition.jpg'
+         'image' => 'images/pattern-recognition.png'
     ]
 ];
 

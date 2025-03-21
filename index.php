@@ -112,7 +112,7 @@ foreach ($quizResults as $result) {
             <div class="card h-100">
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start">
-                  <h5 class="card-title fw-bold">Latest Achievement</h5>
+                  <h5 class="card-title fw-bold">Progress & Achievements</h5>
                   <img src="images/achievement-icon.png" alt="Achievement Icon" style="width:40px; height:40px;">
                 </div>
                 <p class="card-text fst-italic">See your most recent achievement.</p>
