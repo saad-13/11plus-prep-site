@@ -17,7 +17,7 @@ include 'includes/header.php';
         <div class="card text-center mb-3 subject-card <?php echo (isset($_GET['subject']) && $_GET['subject'] == 'mathematics') ? 'border border-3 border-warning' : ''; ?>">
           <div class="card-body">
             <h5 class="card-title fw-bold">Mathematics</h5>
-            <img src="images/math-icon.png" alt="Math Icon" class="img-fluid" style="width:40px; height:40px;">
+            <img src="images/math-icon.png" alt="Math Icon" class="img-fluid" style="width:50px; height:50px;">
           </div>
         </div>
       </a>
@@ -26,7 +26,7 @@ include 'includes/header.php';
         <div class="card text-center mb-3 subject-card <?php echo (isset($_GET['subject']) && $_GET['subject'] == 'english') ? 'border border-3 border-warning' : ''; ?>">
           <div class="card-body">
             <h5 class="card-title fw-bold">English</h5>
-            <img src="images/english-icon.png" alt="English Icon" class="img-fluid" style="width:40px; height:40px;">
+            <img src="images/english-icon.png" alt="English Icon" class="img-fluid" style="width:50px; height:50px;">
           </div>
         </div>
       </a>
@@ -35,7 +35,7 @@ include 'includes/header.php';
         <div class="card text-center mb-3 subject-card <?php echo (isset($_GET['subject']) && $_GET['subject'] == 'verbal') ? 'border border-3 border-warning' : ''; ?>">
           <div class="card-body">
             <h5 class="card-title fw-bold">Verbal Reasoning</h5>
-            <img src="images/verbal-icon.png" alt="Verbal Reasoning Icon" class="img-fluid" style="width:40px; height:40px;">
+            <img src="images/verbal-icon.png" alt="Verbal Reasoning Icon" class="img-fluid" style="width:50px; height:50px;">
           </div>
         </div>
       </a>
@@ -44,7 +44,7 @@ include 'includes/header.php';
         <div class="card text-center mb-3 subject-card <?php echo (isset($_GET['subject']) && $_GET['subject'] == 'nonverbal') ? 'border border-3 border-warning' : ''; ?>">
           <div class="card-body">
             <h5 class="card-title fw-bold">Non-Verbal Reasoning</h5>
-            <img src="images/nonverbal-icon.png" alt="Non-Verbal Icon" class="img-fluid" style="width:40px; height:40px;">
+            <img src="images/nonverbal-icon.png" alt="Non-Verbal Icon" class="img-fluid" style="width:50px; height:50px;">
           </div>
         </div>
       </a>
