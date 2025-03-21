@@ -11,7 +11,7 @@ if (empty($gameSlug)) {
     exit;
 }
 
-// game metadata (could also be stored in database).
+// Game metadata.
 $games = [
     'verbal-challenge' => [
          'title' => 'Verbal Challenge',
@@ -50,86 +50,74 @@ $stmt->execute([$_SESSION['user_id'], $gameSlug]);
 $userScoreRow = $stmt->fetch();
 $userTopScore = $userScoreRow && $userScoreRow['top_score'] ? $userScoreRow['top_score'] : 0;
 
-// Fetch the top 10 leaderboard entries for this game.
-$stmt = $pdo->prepare("SELECT u.username, gs.score 
-                       FROM game_scores gs 
-                       JOIN users u ON gs.user_id = u.id 
-                       WHERE gs.game = ? 
-                       ORDER BY gs.score DESC 
-                       LIMIT 10");
-$stmt->execute([$gameSlug]);
-$leaderboard = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Check if the current user's score is already in the leaderboard.
-$userIncluded = false;
-foreach ($leaderboard as $entry) {
-    if ($entry['username'] === $_SESSION['username']) {
-        $userIncluded = true;
-        break;
-    }
-}
-// If not included (and the user has a score), add it.
-if (!$userIncluded && $userTopScore > 0) {
-    $leaderboard[] = ['username' => $_SESSION['username'], 'score' => $userTopScore];
-    // Re-sort the leaderboard by score in descending order.
-    usort($leaderboard, function($a, $b) {
-         return $b['score'] - $a['score'];
-    });
-}
+// Fetch the logged-in user's previous scores for this game.
+$stmtMyScores = $pdo->prepare("SELECT score, created_at FROM game_scores WHERE user_id = ? AND game = ? ORDER BY created_at DESC");
+$stmtMyScores->execute([$_SESSION['user_id'], $gameSlug]);
+$myScores = $stmtMyScores->fetchAll();
 ?>
 
 <div class="wrapper">
     <div class="content">
         <div class="container mt-5">
-            <div class="row">
-                <!-- Back button and Game Title -->
+            <!-- Header Row with Back Button and Start Game Button -->
+            <div class="row align-items-center mb-3">
+                <div class="col-md-6">
+                    <a href="games.php" class="btn btn-secondary">Back to Games</a>
+                </div>
+                <div class="col-md-6 text-end">
+                    <a href="play_game.php?game=<?php echo urlencode($gameSlug); ?>" class="btn btn-success btn-lg">Start Game</a>
+                </div>
+            </div>
+            
+            <!-- Game Title -->
+            <div class="row mb-3">
                 <div class="col-md-12">
-                    <a href="games.php" class="btn btn-secondary mb-3">Back to Games</a>
                     <h2><?php echo htmlspecialchars($gameTitle); ?> Preview</h2>
                 </div>
             </div>
             
+            <!-- Game Info Section -->
             <div class="row mb-4">
-                <!-- Game Image -->
                 <div class="col-md-4">
                     <img src="<?php echo htmlspecialchars($gameImage); ?>" alt="<?php echo htmlspecialchars($gameTitle); ?>" class="img-fluid rounded">
                 </div>
-                <!-- Game Description and User's Top Score -->
                 <div class="col-md-8">
                     <p class="fst-italic"><?php echo htmlspecialchars($gameDescription); ?></p>
                     <h5>Your Top Score: <?php echo htmlspecialchars($userTopScore); ?></h5>
                 </div>
             </div>
             
-            <!-- Leaderboard -->
+            <!-- User's Previous Scores -->
             <div class="row mb-4">
                 <div class="col-md-12">
-                    <h4>Leaderboard</h4>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Username</th>
-                                <th>Score</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($leaderboard as $index => $entry): ?>
-                            <tr>
-                                <td><?php echo $index + 1; ?></td>
-                                <td><?php echo htmlspecialchars($entry['username']); ?></td>
-                                <td><?php echo htmlspecialchars($entry['score']); ?></td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                    <h4>Your Previous Scores</h4>
+                    <?php if (!empty($myScores)): ?>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($myScores as $scoreEntry): ?>
+                                    <tr>
+                                        <td><?php echo date('M d, Y', strtotime($scoreEntry['created_at'])); ?></td>
+                                        <td><?php echo htmlspecialchars($scoreEntry['score']); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php else: ?>
+                        <p>You haven't played this game yet. Try it out!</p>
+                    <?php endif; ?>
                 </div>
             </div>
             
-            <!-- Start Game Button -->
-            <div class="row">
+            <!-- Link to Global Leaderboard -->
+            <div class="row mb-4">
                 <div class="col-md-12 text-center">
-                    <a href="play_game.php?game=<?php echo urlencode($gameSlug); ?>" class="btn btn-primary btn-lg">Start Game</a>
+                    <a href="leaderboard.php?filter=overall&qtype=<?php echo urlencode($gameSlug); ?>" class="btn btn-primary btn-lg">View Leaderboard</a>
                 </div>
             </div>
         </div>

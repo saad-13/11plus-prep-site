@@ -15,7 +15,7 @@ include 'includes/db.php';
           <a href="game_preview.php?game=verbal-challenge" class="text-decoration-none text-dark">
             <div class="card h-100">
               <div class="card-body">
-              <img src="images/verbal-challenge.png" class="card-img-top" alt="Verbal Challenge" class="img-fluid" style="width:40px; height:40px;">
+              <img src="images/verbal-challenge.png" class="card-img-top" alt="Verbal Challenge" class="img-fluid" style="width:50px; height:50px;">
                 <h5 class="card-title fw-bold">Word Scrabble</h5>
                 <p class="card-text fst-italic">Enhance your language and vocabulary skills by solving anagrams and finding the hidden words.</p>
               </div>
@@ -27,7 +27,7 @@ include 'includes/db.php';
           <a href="game_preview.php?game=math-blitz" class="text-decoration-none text-dark">
             <div class="card h-100">
               <div class="card-body">
-              <img src="images/math-blitz.png" class="card-img-top" alt="Math Blitz" class="img-fluid" style="width:40px; height:40px;">
+              <img src="images/math-blitz.png" class="card-img-top" alt="Math Blitz" class="img-fluid" style="width:50px; height:50px;">
                 <h5 class="card-title fw-bold">Math Blitz</h5>
                 <p class="card-text fst-italic">Test your arithmetic and problem-solving speed.</p>
               </div>
@@ -39,7 +39,7 @@ include 'includes/db.php';
           <a href="game_preview.php?game=logical-reasoning" class="text-decoration-none text-dark">
             <div class="card h-100">
               <div class="card-body">
-              <img src="images/logical-reasoning.png" class="card-img-top" alt="Logical Reasoning" class="img-fluid" style="width:40px; height:40px;">
+              <img src="images/logical-reasoning.png" class="card-img-top" alt="Logical Reasoning" class="img-fluid" style="width:50px; height:50px;">
                 <h5 class="card-title fw-bold">Logical Reasoning</h5>
                 <p class="card-text fst-italic">Sharpen your critical thinking and logic skills.</p>
               </div>
@@ -51,7 +51,7 @@ include 'includes/db.php';
           <a href="game_preview.php?game=pattern-recognition" class="text-decoration-none text-dark">
             <div class="card h-100">
               <div class="card-body">
-              <img src="images/pattern-recognition.png" class="card-img-top" alt="Pattern Recognition" class="img-fluid" style="width:40px; height:40px;">
+              <img src="images/pattern-recognition.png" class="card-img-top" alt="Pattern Recognition" class="img-fluid" style="width:50px; height:50px;">
                 <h5 class="card-title fw-bold">Pattern Recognition</h5>
                 <p class="card-text fst-italic">Improve your visual and spatial reasoning.</p>
               </div>
