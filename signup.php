@@ -62,12 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-3">
               <label for="email" class="form-label">Email:</label>
               <input type="email" class="form-control" id="email" name="email" required>
-              <small class="hint text-muted" id="emailHint" style="display:none;">Enter your email address (parents can help!)</small>
+              <small class="hint text-muted" id="emailHint" style="display:none;">Enter your email address (Ask a parent help!)</small>
             </div>
             <div class="mb-3">
               <label for="confirmEmail" class="form-label">Confirm Email:</label>
               <input type="email" class="form-control" id="confirmEmail" name="confirmEmail" required>
-              <small class="hint text-muted" id="confirmEmailHint" style="display:none;">Re-enter your email to confirm.</small>
+              <small class="hint text-muted" id="confirmEmailHint" style="display:none;">Re-enter your email to confirm (Ask a parent help!)</small>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Password:</label>

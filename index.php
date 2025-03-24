@@ -219,7 +219,7 @@ foreach ($quizResults as $result) {
           datasets: [{
             label: 'Quiz Score (%)',
             data: chartData,
-            borderColor: 'blue',
+            borderColor: 'orange',
             borderWidth: 2,
             fill: false,
           }]
