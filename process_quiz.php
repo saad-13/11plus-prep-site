@@ -48,6 +48,47 @@ if ($result) {
         if ($quiz_type === 'subject' && !empty($subject) && $percentage == 100) {
             awardAchievement($pdo, $user_id, "Subject Master: " . ucfirst($subject));
         }
+
+        // ==== START DIFFICULTY UPDATE LOGIC ====
+        // Determine which key to use for difficulty tracking:
+            $diffType = ($quiz_type === 'subject' && !empty($subject))
+            ? $subject
+            : $quiz_type;
+
+        // 1) Fetch current difficulty level (if any).
+        $stmtDiff = $pdo->prepare("
+            SELECT difficulty_level
+                FROM user_difficulty
+            WHERE user_id = ?
+                AND quiz_type = ?
+        ");
+        $stmtDiff->execute([$user_id, $diffType]);
+        $currentLevel = (int)$stmtDiff->fetchColumn();
+
+        // 2) If no record exists, insert at level 1.
+        if ($currentLevel < 1) {
+            $currentLevel = 1;
+            $stmtInsert = $pdo->prepare("
+                INSERT INTO user_difficulty
+                    (user_id, quiz_type, difficulty_level)
+                VALUES (?, ?, ?)
+            ");
+            $stmtInsert->execute([$user_id, $diffType, $currentLevel]);
+        }
+
+        // 3) If user scored ≥80% and level <10, increase by 1.
+        if ($percentage >= 80 && $currentLevel < 10) {
+            $newLevel = $currentLevel + 1;
+            $stmtUpdate = $pdo->prepare("
+                UPDATE user_difficulty
+                    SET difficulty_level = ?
+                WHERE user_id = ?
+                    AND quiz_type = ?
+            ");
+            $stmtUpdate->execute([$newLevel, $user_id, $diffType]);
+        }
+        // ==== END DIFFICULTY UPDATE LOGIC ====
+
     }
     
     echo json_encode(['success' => true, 'result_id' => $result_id]);
